@@ -38,29 +38,29 @@ while True:
     tree3 = source_code2.xpath('/html/body/div[6]/main/div[3]/div/div[3]/div[1]/div/div/div/div[2]/table/tbody/tr[1]/td')
     tree4 = source_code2.xpath('/html/body/div[6]/main/div[3]/div/div[3]/div[1]/div/div/div/div[2]/table/tbody/tr[3]/td')
     
-    treereturn = tree[0].text_content()
-    tree2return = tree2[0].text_content()
-    tree3return = tree3[0].text_content()
-    tree4return = tree4[0].text_content()
+    totalCasesReturn = tree[0].text_content()
+    totalDeathsReturn = tree2[0].text_content()
+    UScasesReturn = tree3[0].text_content()
+    USopenTestsReturn = tree4[0].text_content()
     
-    totalCaseChange = int(re.findall("\d+",treereturn)[0]) - totalCasesPrevious
-    totalDeathChange = int(re.findall("\d+",tree2return)[0]) - totalDeathsPrevious
-    UScasesChange = int(re.findall("\d+",tree3return)[0]) - UScasesPrevious
-    USopenChange = int(re.findall("\d+",tree4return)[0]) - USopenTestsPrevious
+    totalCaseChange = int(re.findall("\d+",totalCasesReturn)[0]) - totalCasesPrevious
+    totalDeathChange = int(re.findall("\d+",totalDeathsReturn)[0]) - totalDeathsPrevious
+    UScasesChange = int(re.findall("\d+",UScasesReturn)[0]) - UScasesPrevious
+    USopenChange = int(re.findall("\d+",USopenTestsReturn)[0]) - USopenTestsPrevious
     
     update_time = time.localtime()
     t = time.asctime(update_time)
         
     if totalCaseChange != 0 or totalDeathChange != 0 or UScasesChange !=0 or USopenChange !=0:
         system('cls')
-        print("Total Cases: " + treereturn + " " + symbolUpdate(totalCaseChange)) 
-        print("Total Deaths: " + tree2return + " " + symbolUpdate(totalDeathChange)) 
-        print("US Cases: " + tree3return + " " + symbolUpdate(UScasesChange)) 
-        print("US Open Tests: " + tree4return + " " + symbolUpdate(USopenChange)) 
+        print("Total Cases: " + totalCasesReturn + " " + symbolUpdate(totalCaseChange)) 
+        print("Total Deaths: " + totalDeathsReturn + " " + symbolUpdate(totalDeathChange)) 
+        print("US Cases: " + UScasesReturn + " " + symbolUpdate(UScasesChange)) 
+        print("US Open Tests: " + USopenTestsReturn + " " + symbolUpdate(USopenChange)) 
         print("LAST CHANGE: " + t[:-4])
-    totalCasesPrevious = int(re.findall("\d+",treereturn)[0])
-    totalDeathsPrevious = int(re.findall("\d+",tree2return)[0])
-    UScasesPrevious = int(re.findall("\d+",tree3return)[0])
-    USopenTestsPrevious = int(re.findall("\d+",tree4return)[0])
+    totalCasesPrevious = int(re.findall("\d+",totalCasesReturn)[0])
+    totalDeathsPrevious = int(re.findall("\d+",totalDeathsReturn)[0])
+    UScasesPrevious = int(re.findall("\d+",UScasesReturn)[0])
+    USopenTestsPrevious = int(re.findall("\d+",USopenTestsReturn)[0])
 
     time.sleep(10)

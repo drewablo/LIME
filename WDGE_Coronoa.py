@@ -1,8 +1,9 @@
 import requests
 import re
 from lxml import html
-from time import sleep
-
+import time
+from os import system
+previousSymbol = 0
 totalCasesPrevious = 0
 totalDeathsPrevious = 0
 UScasesPrevious = 0
@@ -13,8 +14,17 @@ totalDeathChange = 0
 UScasesChange = 0 
 USopenChange = 0
 
-previousSymbol = 0
-
+def symbolUpdate(caseChange):
+    global previousSymbol
+    if caseChange != 0:
+        if caseChange > 0:
+            previousSymbol = "\u25b2"
+        elif caseChange < 0:
+            previousSymbol = "\u25BE"
+    else:
+        previousSymbol = previousSymbol
+    return previousSymbol
+    
 while True:
     response = requests.get("https://www.worldometers.info/coronavirus/")
     byte_data = response.content 
@@ -38,30 +48,19 @@ while True:
     UScasesChange = int(re.findall("\d+",tree3return)[0]) - UScasesPrevious
     USopenChange = int(re.findall("\d+",tree4return)[0]) - USopenTestsPrevious
     
-    
-    
-    def symbolUpdate(caseChange):
-        global previousSymbol
-        if caseChange != 0:
-            if caseChange > 0:
-                previousSymbol = "\u25b2"
-            elif caseChange < 0:
-                previousSymbol = "\u25BE"
-        else:
-            previousSymbol = previousSymbol
-        return previousSymbol
-
-    
-    print("Total Cases: " + treereturn + " " + symbolUpdate(totalCaseChange)) 
-    print("Total Deaths: " + tree2return + " " + symbolUpdate(totalDeathChange)) 
-    print("US Cases: " + tree3return + " " + symbolUpdate(UScasesChange)) 
-    print("US Open Tests: " + tree4return + " " + symbolUpdate(USopenChange)) 
-    
-
-    
+    update_time = time.localtime()
+    t = time.asctime(update_time)
+        
+    if totalCaseChange != 0 or totalDeathChange != 0 or UScasesChange !=0 or USopenChange !=0:
+        system('cls')
+        print("Total Cases: " + treereturn + " " + symbolUpdate(totalCaseChange)) 
+        print("Total Deaths: " + tree2return + " " + symbolUpdate(totalDeathChange)) 
+        print("US Cases: " + tree3return + " " + symbolUpdate(UScasesChange)) 
+        print("US Open Tests: " + tree4return + " " + symbolUpdate(USopenChange)) 
+        print("LAST CHANGE: " + t[:-4])
     totalCasesPrevious = int(re.findall("\d+",treereturn)[0])
     totalDeathsPrevious = int(re.findall("\d+",tree2return)[0])
     UScasesPrevious = int(re.findall("\d+",tree3return)[0])
     USopenTestsPrevious = int(re.findall("\d+",tree4return)[0])
-    
-    sleep(5)
+
+    time.sleep(10)

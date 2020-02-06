@@ -13,6 +13,8 @@ totalDeathChange = 0
 UScasesChange = 0 
 USopenChange = 0
 
+previousSymbol = 0
+
 while True:
     response = requests.get("https://www.worldometers.info/coronavirus/")
     byte_data = response.content 
@@ -36,20 +38,30 @@ while True:
     UScasesChange = int(re.findall("\d+",tree3return)[0]) - UScasesPrevious
     USopenChange = int(re.findall("\d+",tree4return)[0]) - USopenTestsPrevious
     
-
-    print("Global Cases: " + treereturn) 
-    print("Global Deaths: " + tree2return) 
-    print("United States Cases: " + tree3return) 
-    print("US Pending Cases: " + tree4return) 
     
-    print("GC Change: " + str(totalCaseChange))
-    print("Death Change: " + str(totalDeathChange))
-    print("US Cases Change: " + str(totalCaseChange))
-    print("US Open Test Change: " + str(totalCaseChange))
+    
+    def symbolUpdate(caseChange):
+        global previousSymbol
+        if caseChange != 0:
+            if caseChange > 0:
+                previousSymbol = "\u25b2"
+            elif caseChange < 0:
+                previousSymbol = "\u25BE"
+        else:
+            previousSymbol = previousSymbol
+        return previousSymbol
+
+    
+    print("Total Cases: " + treereturn + " " + symbolUpdate(totalCaseChange)) 
+    print("Total Deaths: " + tree2return + " " + symbolUpdate(totalDeathChange)) 
+    print("US Cases: " + tree3return + " " + symbolUpdate(UScasesChange)) 
+    print("US Open Tests: " + tree4return + " " + symbolUpdate(USopenChange)) 
+    
+
     
     totalCasesPrevious = int(re.findall("\d+",treereturn)[0])
     totalDeathsPrevious = int(re.findall("\d+",tree2return)[0])
     UScasesPrevious = int(re.findall("\d+",tree3return)[0])
     USopenTestsPrevious = int(re.findall("\d+",tree4return)[0])
-
+    
     sleep(5)

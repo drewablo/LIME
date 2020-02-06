@@ -55,8 +55,7 @@ while True:
         print("Deaths: " + str(f'{averageNumbers(rawDeathsReturn):n}'))
         print("LAST CHANGE: " + t[:-4])
         
-    totalCasesPrevious = int(re.findall("\d+",rawSickReturn)[0])
-    totalDeathsPrevious = int(re.findall("\d+",rawHospitalReturn)[0])
-    totalHospitalizationsPrev = int(re.findall("\d+",rawDeathsReturn)[0])
-
+    totalCasesPrevious = averageNumbers(rawSickReturn)
+    totalDeathsPrevious = averageNumbers(rawHospitalReturn)
+    totalHospitalizationsPrev = averageNumbers(rawDeathsReturn)
     time.sleep(300)
